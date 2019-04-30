@@ -1,6 +1,14 @@
 function [nvac, basis, bfs] = phaseOne(A, b, c)
 %PHASEONE
-%  First phase of simplex method
+%  First phase of simplex method, we find a basic feasible solution, if 
+%  it exists. Here we receive A mxn matrix with m<=n
+%  and a rank of m, b column vector with m rows, c column vector with n
+%  rows.
+%  Output: nvac = 0 if the feasible set is empty; nvac = 1 if the feasible 
+%  set is non-empty; basis = a m vector of indices of column vectors
+%  for a feasible basis for the problem if the feasible set is
+%  non-empty; bfs = a n vector of the basic feasible solution corresponding
+%  to this basis.
 
 %We start by asuming non feasibility
 nvac = 0;
@@ -33,15 +41,19 @@ end
      else
          colSet = linspace(1,size(A,2),size(A,2));
          nbasis = setdiff(colSet,obasis);
-         while max(obasis) > size(A,2)
+         count = 1;
+         tempbasis = [];
+         while max(obasis) > size(A,2) && count <= size(nbasis,2)
             out = max(obasis);
-            ind1 = find(obasis == max(obasis));
-            obasis(ind1) = min(nbasis);
-            ind2 = find(nbasis == min(nbasis));
-            nbasis(ind2) = out;
-            
-            basis = obasis;
+            tempbasis = [setdiff(obasis,out),nbasis(count)];
+            if rank(A(:,tempbasis)) == size(A,1)
+                ind1 = find(obasis == out); %index of maximum value
+                obasis(ind1) = nbasis(count);
+                nbasis(count) = out;
+            end
+            count = count +1;
          end
+         basis = obasis;
      end
  end
-
+end

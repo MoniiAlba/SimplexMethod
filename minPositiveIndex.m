@@ -3,10 +3,10 @@ function [i] = minPositiveIndex(r)
 %   Regresamos la posición de r
 i = 1;
 
-while (i < size(r,1)) && (r(i) <= 0)
+while (i <= size(r,1)) && (r(i) <= 0)
     i = i +1;
 end
-if i == size(r,1)
+if i > size(r,1)
     i = -1;
 end
 end
