@@ -48,8 +48,22 @@ end
  %and we obtain a feasible basis by removing auxiliary variables
  if oval == 0
      nvac = 1;
-     basis = obasis;
      bfs = obfs(1:size(A,2));
+     if max(obasis)<= size(A,2)
+        basis = obasis;
+     else
+         colSet = linspace(1,size(A,2),size(A,2));
+         nbasis = setdiff(colSet,obasis);
+         while max(obasis) > size(A,2)
+            out = max(obasis);
+            ind1 = find(obasis == max(obasis));
+            obasis(ind1) = min(nbasis);
+            ind2 = find(nbasis == min(nbasis));
+            nbasis(ind2) = out;
+            
+            basis = obasis;
+         end
+     end
  end
 end
 
