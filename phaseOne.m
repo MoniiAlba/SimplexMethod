@@ -33,15 +33,20 @@ end
      else
          colSet = linspace(1,size(A,2),size(A,2));
          nbasis = setdiff(colSet,obasis);
-         while max(obasis) > size(A,2)
+         count = 1;
+         tempbasis = [];
+         while max(obasis) > size(A,2) && count <= size(nbasis,2)
             out = max(obasis);
-            ind1 = find(obasis == max(obasis));
-            obasis(ind1) = min(nbasis);
-            ind2 = find(nbasis == min(nbasis));
-            nbasis(ind2) = out;
-            
-            basis = obasis;
+            tempbasis = [setdiff(obasis,out),nbasis(count)];
+            if rank(A(:,tempbasis)) == size(A,1)
+                ind1 = find(obasis == max(obasis));
+                obasis(ind1) = min(nbasis);
+                ind2 = find(nbasis == min(nbasis));
+                nbasis(ind2) = out;
+            end
+            count = count +1;
          end
+         basis = obasis;
      end
  end
 
