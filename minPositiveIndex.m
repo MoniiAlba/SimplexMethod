@@ -1,6 +1,10 @@
+%Andrés Cruz y Vera  155899
+%Luis Felipe Landa Lizarralde 158228
+%Mónica Elizabeth Alba González 160502
 function [i] = minPositiveIndex(r)
-%UNTITLED3 Summary of this function goes here
-%   Regresamos la posición de r
+%MINPOSITIVEINDEX
+%   Here we calculate the index that corresponds to the first
+%   positive element of r.
 i = 1;
 
 while (i <= size(r,1)) && (r(i) <= 0)

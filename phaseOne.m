@@ -1,3 +1,6 @@
+%Andrés Cruz y Vera  155899
+%Luis Felipe Landa Lizarralde 158228
+%Mónica Elizabeth Alba González 160502
 function [nvac, basis, bfs] = phaseOne(A, b, c)
 %PHASEONE
 %  First phase of simplex method, we find a basic feasible solution, if 
@@ -36,13 +39,20 @@ end
  if oval == 0
      nvac = 1;
      bfs = obfs(1:size(A,2));
+     %if the basis does not include correction variables, the first phase
+     %is finished
      if max(obasis)<= size(A,2)
         basis = obasis;
      else
+         %if the basis includes correction variables, we must fix the
+         %basis.
          colSet = linspace(1,size(A,2),size(A,2));
          nbasis = setdiff(colSet,obasis);
          count = 1;
          tempbasis = [];
+         %while there are correction variables in the basis, we replace
+         %them with variables from the non-basis whose columns mantain 
+         %linear independence.
          while max(obasis) > size(A,2) && count <= size(nbasis,2)
             out = max(obasis);
             tempbasis = [setdiff(obasis,out),nbasis(count)];
